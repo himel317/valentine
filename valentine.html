@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff9ec4, #ff4f81);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background photos */
+.bg-photo {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 18px;
+    opacity: 0.45;
+}
+
+/* Falling hearts */
+.heart {
+    position: absolute;
+    top: -50px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(110vh);
+        opacity: 0;
+    }
+}
+
+/* Card */
+.card {
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(15px);
+    padding: 70px 80px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    position: relative;
+    width: 520px;
+    z-index: 2;
+}
+
+h1 {
+    font-family: 'Pacifico', cursive;
+    font-size: 42px;
+    margin-bottom: 30px;
+    color: black;
+}
+
+.photos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px;
+    margin-bottom: 35px;
+}
+
+.photos img {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid white;
+}
+
+.love-emoji {
+    font-size: 65px;
+}
+
+button {
+    padding: 18px 45px;
+    font-size: 24px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: 600;
+}
+
+#yesBtn {
+    background: white;
+    color: #ff2f6d;
+    font-family: 'Pacifico', cursive;
+}
+
+#noBtn {
+    background: rgba(255,255,255,0.9);
+    color: #333;
+    position: absolute;
+    left: 68%;
+    top: 75%;
+    font-family: 'Pacifico', cursive;
+}
+
+/* YES page */
+.gallery {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff9ec4, #ff4f81);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Top text */
+.top-text {
+    text-align: center;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.top-text .line1 {
+    font-size: 55px;
+    font-family: 'Pacifico', cursive;
+}
+
+.top-text .line2 {
+    font-size: 35px;
+    font-family: 'Pacifico', cursive;
+}
+
+.top-text .line3 {
+    font-size: 22px;
+    margin-top: 8px;
+}
+
+/* Scroll icon */
+.scroll-icon {
+    font-size: 40px;
+    color: white;
+    animation: bounce 1.2s infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+}
+
+/* Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 25px;
+    padding: 30px;
+}
+
+.photo-box {
+    text-align: center;
+}
+
+.photo-box img {
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.date {
+    margin-top: 8px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.caption {
+    margin-top: 4px;
+    color: white;
+    font-size: 15px;
+}
+
+.romantic {
+    font-family: 'Pacifico', cursive;
+    font-size: 16px;
+}
+
+/* Final love text */
+.final-text {
+    margin: 50px 0 80px;
+    font-family: 'Pacifico', cursive;
+    font-size: 55px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="card">
+    <h1>Will you be my Valentine, <span id="name">My Love</span>? 💖</h1>
+
+    <div class="photos">
+        <img src="me.jpeg">
+        <div class="love-emoji">❤️</div>
+        <img src="gf.jpeg">
+    </div>
+
+    <button id="yesBtn" onclick="yesClick()">Yes</button>
+    <button id="noBtn">No</button>
+</div>
+
+<script>
+document.getElementById("name").innerText = "Nupur";
+
+/* NO button move inside card only */
+const noBtn = document.getElementById("noBtn");
+const card = document.getElementById("card");
+
+card.addEventListener("mousemove", function(e) {
+    const rect = noBtn.getBoundingClientRect();
+    const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width/2),
+        e.clientY - (rect.top + rect.height/2)
+    );
+
+    if (distance < 90) {
+        const maxX = card.clientWidth - noBtn.offsetWidth - 20;
+        const maxY = card.clientHeight - noBtn.offsetHeight - 20;
+
+        const x = Math.random() * maxX;
+        const y = Math.random() * maxY;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+});
+
+/* YES page */
+function yesClick() {
+
+    const dates = [
+        "12 Dec 2024","26 Dec 2024","26 Dec 2024","13 Jan 2025",
+        "4 Feb 2025","16 April 2025","13 June 2025","13 June 2025",
+        "14 Aug 2025","22 Sep 2025","22 Sep 2025","26 Oct 2025",
+        "13 Jan 2026","26 Dec 2025","13 Jan 2026","6 Feb 2026",
+        "3 Dec 2025",""
+    ];
+
+    const captions = [
+        "আমার আর তোমার 1st single ছবি",
+        "আমি আর তুমি এক সাথে সাগর দেখা",
+        "তোমার আর আমার 1st হাত ধরে পাহাড়ে ওঠা",
+        "তোমার আর আমার জীবনের যাত্রা শুরু শেষ নিঃশ্বাস পর্যন্ত ❤️",
+        "আমার দেওয়া 1st শাড়ি পরে নিজ চোখে দেখা",
+        "একটু ঘুরাঘুরি",
+        "তোমাকে নিয়ে একটি সুন্দর মুহূর্ত কাটানো পাহাড়ের উপর",
+        "ঘুরতে গিয়ে একটু নিজেদের মতো মিরর ছবি তোলা",
+        "একটু candid ছবি তোলা তাও আবার formal dress এ",
+        "এই তারিখটা না আসলে হয়তো তোমাকে পেতাম না ❤️",
+        "এইতো তোমাকে নিয়ে একটু খাইতে যাওয়া তোমার জন্মদিন উপলক্ষে",
+        "এটা হচ্ছে আমার জন্মদিনে তোমার সাথে celebrate করা 😊",
+        "এই দিন ছিল আরো special কারণ আমাদের 1 year পথ চলার জন্য ঘুরতে গিয়েছিলাম",
+        "daffodil এর বুকের ছবি তোলা",
+        "এইতো এক গুচ্ছ গোলাপ নিয়ে ছবি তোলা",
+        "এইতো একটু formal vibe এ ছবি তোলা",
+        "আমার জীবনের ছোট একটু অর্জন তোমো নিয়ে উপভোগ করলাম",
+        "আমাদের coco 😊"
+    ];
+
+    let images = "";
+    for (let i = 1; i <= 18; i++) {
+        let src;
+        if (i === 1) src = "couple.jpeg";
+        else src = `couple${i}.jpeg`;
+
+        let specialClass = (i === 4) ? "caption romantic" : "caption";
+
+        images += `
+        <div class="photo-box">
+            <img src="${src}">
+            <div class="date">${dates[i-1] || ""}</div>
+            <div class="${specialClass}">${captions[i-1]}</div>
+        </div>`;
+    }
+
+    document.body.innerHTML = `
+    <div class="gallery">
+        <div class="top-text">
+            <div class="line1">Yes Baby !</div>
+            <div class="line2">I am your valentine 😊</div>
+            <div class="line3">আমাদের এই ছোট্ট জীবনে কিছু স্মৃতি</div>
+        </div>
+
+        <div class="scroll-icon">↓</div>
+
+        <div class="grid">
+            ${images}
+        </div>
+
+        <div class="final-text">
+            I love you so much Himel ❤️<br>
+            tumi amr jamai 💖<br>
+            ∞ ❤️
+        </div>
+    </div>`;
+}
+
+/* Background photos first page */
+const coupleImages = [
+    "couple.jpeg","couple2.jpeg","couple3.jpeg","couple4.jpeg",
+    "couple5.jpeg","couple6.jpeg","couple7.jpeg","couple8.jpeg",
+    "couple9.jpeg","couple10.jpeg","couple11.jpeg","couple12.jpeg",
+    "couple13.jpeg","couple14.jpeg","couple15.jpeg","couple16.jpeg"
+];
+
+coupleImages.forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.classList.add("bg-photo");
+    img.style.left = Math.random() * 85 + "vw";
+    img.style.top = Math.random() * 85 + "vh";
+    document.body.appendChild(img);
+});
+
+/* Falling hearts animation */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "❤️";
+
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = (20 + Math.random() * 30) + "px";
+    heart.style.animationDuration = (3 + Math.random() * 4) + "s";
+
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 7000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
